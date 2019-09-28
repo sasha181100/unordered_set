@@ -11,21 +11,18 @@
 #include <math.h>
 
 template<typename T>
+
 struct unordered_set {
 
     template<typename V>
     struct iterator {
         iterator() = default;
         iterator(iterator const &other) = default;
-        iterator& operator=(iterator const &other) {
-            table = other.table;
-            cell_number = other.cell_number;
-            position_in_table = other.position_in_table;
-        }
-        V &operator *() {
+        iterator& operator=(iterator const &other) = default;
+        V const &operator *() const {
             return table[position_in_table][cell_number];
         }
-        V *operator ->() {
+        V const *operator ->() const {
             return &table[position_in_table][cell_number];
         }
         iterator &operator++() {
@@ -51,10 +48,10 @@ struct unordered_set {
             return !(q == w);
         }
     private:
-        std::vector<std::vector<V>> &table;
+        std::vector<std::vector<V>> const &table;
         size_t position_in_table, cell_number;
         friend unordered_set;
-        explicit iterator(std::vector<std::vector<V>> &a, size_t p, size_t c) :table(a), position_in_table(p), cell_number(c) {
+        explicit iterator(std::vector<std::vector<V>> const &a, size_t p, size_t c) :table(a), position_in_table(p), cell_number(c) {
 
         }
     };
